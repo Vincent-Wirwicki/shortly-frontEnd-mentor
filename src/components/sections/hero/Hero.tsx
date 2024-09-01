@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Button } from "../../ui/button";
 
 export default function Hero() {
@@ -24,7 +23,7 @@ export default function Hero() {
           Build your brand&apos;s recognition and get detailed insights on how
           your links are performing
         </h3>
-        <Button className="w-1/4 md:w-1/3 mt-5 bg-primary-cyan hover:bg-primary-cyan-light rounded-3xl">
+        <Button className="w-1/4 md:w-1/3 xs:w-1/2 mt-5 bg-primary-cyan hover:bg-primary-cyan-light rounded-3xl p-5">
           Get Started
         </Button>
       </div>

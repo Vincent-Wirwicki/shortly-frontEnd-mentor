@@ -6,9 +6,13 @@ const schema = z.object({
   shorten: z
     .string()
     .trim()
+    .url({ message: "Invalid url" })
+
     .min(1, { message: "Your field is empty" })
     .max(255, { message: "Your url is too long" })
-    .url({ message: "Invalid url" }),
+    .refine(url => !url.startsWith("https://cleanuri.com"), {
+      message: "Your URL is already shortened",
+    }),
 });
 
 interface CleanUriResponse {
@@ -21,11 +25,11 @@ export default async function getShortUrl(prevState: any, formData: FormData) {
   });
 
   if (!isValidField.success) {
-    const { code, message } = isValidField.error.issues[0];
-    if (code === "too_small") return { error: message };
-    if (code === "invalid_string") return { error: message };
-    if (code === "too_big") return { error: message };
-    return { error: "something went wrong" };
+    const { message } = isValidField.error.issues[0];
+    // if (code === "too_small") return { error: message };
+    // if (code === "invalid_string") return { error: message };
+    // if (code === "too_big") return { error: message };
+    return { error: message };
   }
 
   const originalUrl = isValidField.data.shorten;

@@ -6,9 +6,6 @@ import getShortUrl from "@/server/actions";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import { stat } from "fs";
-
-type ShortenedURL = { original: string; shorten: string };
 
 const initialState = {
   error: "",
@@ -26,7 +23,6 @@ export default function Form() {
       setTimeout(() => setCopiedUrl(""), 1000);
     });
   };
-
   return (
     <>
       <form
@@ -38,6 +34,7 @@ export default function Form() {
     bg-form-desk md:bg-form-mobile 
     "
       >
+        {/* for this demo I used input type="text" but you can use type="url" with a required */}
         <Input
           id="shorten"
           name="shorten"
@@ -49,16 +46,16 @@ export default function Form() {
                 : "unset",
           }}
           placeholder="Shorten a link here..."
-          className="bg-neutral-200 invalid:border-red-500"
+          className="bg-neutral-200"
         />
         {state.error.length > 0 && (
-          <p className="absolute bottom-5 md:bottom-14 md:left-6 text-secondary-red">
+          <p className="absolute text-xs bottom-5 md:bottom-14 md:left-6 text-secondary-red">
             {state.error}
           </p>
         )}
         <Button
           type="submit"
-          className="bg-primary-cyan hover:bg-primary-cyan-light rounded-md md:w-full"
+          className="bg-primary-cyan hover:bg-primary-cyan-light w-60 rounded-md md:w-full"
         >
           Shorten it!
         </Button>
@@ -89,15 +86,21 @@ function ResultCard({
   copiedUrl: string;
 }) {
   return (
-    <div className="bg-neutral-50 w-4/5 flex md:flex-col justify-between items-center p-2 rounded-md md:p-6 md:gap-2">
-      <div className="w-full flex justify-between p-4 md:flex-col md:gap-2 md:p-0">
-        <p className="truncate  md:border-b-neutral-500 md:border-b-2">
+    <div className="bg-neutral-50 w-4/5 flex md:flex-col justify-between items-center p-8 rounded-md md:p-6 md:gap-2">
+      <div className="w-11/12 flex justify-between p-4 md:flex-col md:gap-2 md:p-0 md:w-full">
+        <p className="truncate w-1/3 md:w-full md:border-b-neutral-500 md:border-b-2">
           {original}
         </p>
         <p className="text-primary-cyan-light">{shorten}</p>
       </div>
       <Button
-        className="bg-primary-cyan hover:bg-primary-cyan-light rounded-md md:w-full md:p-4"
+        className="bg-primary-cyan hover:bg-primary-cyan-light rounded-md w-40 md:w-full md:p-4 "
+        style={{
+          backgroundColor:
+            copiedUrl === shorten
+              ? "hsl(var(--neutral-dark-violet))"
+              : "hsl(var(--primary-cyan))",
+        }}
         onClick={() => copyToClipboard(shorten)}
       >
         {copiedUrl === shorten ? "Copied!" : "Copy"}
