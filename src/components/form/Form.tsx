@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
 import getShortUrl from "@/server/actions";
 import { useState } from "react";
@@ -57,7 +57,7 @@ export default function Form() {
           type="submit"
           className="bg-primary-cyan hover:bg-primary-cyan-light w-60 rounded-md md:w-full"
         >
-          Shorten it!
+          shorten it!
         </Button>
       </form>
       {urls.length > 0 &&
